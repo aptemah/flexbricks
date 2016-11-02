@@ -1,0 +1,9 @@
+@charset "utf-8";
+.table {
+	table-layout: fixed;
+	width: 100%
+}
+.table td {
+	padding: 5px;
+	border: 1px solid #000;
+}
