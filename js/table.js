@@ -76,17 +76,23 @@ Table.prototype.pagination = function (where) {
 	switch(where) {
 		case 'first':
 			this.rowOffset = 0;
+			this.currentPage = 1;
+			console.log(this.currentPage)
 		break;
 
 		case 'previous':
 			if (this.rowOffset - this.rowMaxAmount >= 0) {
 				this.rowOffset -= this.rowMaxAmount;
+				this.currentPage = this.rowOffset / this.rowMaxAmount + 1;
+				console.log(this.currentPage)
 			}
 		break;
 
 		case 'next':
 			if (this.getRowsAmount() - this.rowOffset - this.rowMaxAmount > 0) {
 				this.rowOffset += this.rowMaxAmount;
+				this.currentPage = this.rowOffset / this.rowMaxAmount + 1;
+				console.log(this.currentPage)
 			}
 		break;
 
@@ -97,6 +103,8 @@ Table.prototype.pagination = function (where) {
 			} else {
 				this.rowOffset = this.getRowsAmount() - this.rowMaxAmount;
 			}
+			this.currentPage = this.rowOffset / this.rowMaxAmount + 1;
+			console.log(this.currentPage)
 		break;
 	}
 	this.build()
@@ -132,6 +140,11 @@ Table.prototype.paginationBuild = function () {
 	this.navLast.textContent = 'last';
 	this.paginationBlock.appendChild(this.navLast);
 	this.navLast.addEventListener('click', function(){self.pagination('last')});
+
+	this.pageNumber = document.createElement('span');
+	this.pageNumber.textContent = this.currentPage || 1;
+	this.paginationBlock.appendChild(this.pageNumber);
+	this.pageNumber.className = "page-number";
 
 
 	this.container.insertBefore(this.paginationBlock, this.container.firstChild);
